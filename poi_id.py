@@ -44,7 +44,7 @@ with open("final_project_dataset.pkl", "r") as data_file:
 data_dict.pop('TOTAL', 0)
 
 # find the max/min value and person for a feature
-print find_max(data_dict, 'bonus')
+#print find_max(data_dict, 'bonus')
 
 
 ### Task 3: Create new feature(s)
@@ -52,21 +52,33 @@ print find_max(data_dict, 'bonus')
 
 # new feature 'percent_exercised_stock'
 for person in data_dict.keys():
-	num = float(data_dict[person]['exercised_stock_options'])
-	den = float(data_dict[person]['total_stock_value'])
-	data_dict[person]['percent_exercised_stock'] = num/den
+	num = data_dict[person]['exercised_stock_options']
+	den = data_dict[person]['total_stock_value']
+
+	if den != 0 and num != 'NaN' and den != 'NaN':
+		data_dict[person]['percent_exercised_stock'] = float(num)/float(den)
+	else:
+		data_dict[person]['percent_exercised_stock'] = 'NaN'
 
 # new feature 'percent_to_poi'
 for person in data_dict.keys():
-	num = float(data_dict[person]['from_this_person_to_poi'])
-	den = float(data_dict[person]['from_messages'])
-	data_dict[person]['percent_to_poi'] = num/den 
+	num = data_dict[person]['from_this_person_to_poi']
+	den = data_dict[person]['from_messages']
+
+	if den != 0 and num != 'NaN' and den != 'NaN':
+		data_dict[person]['percent_to_poi'] = float(num)/float(den)
+	else:
+		data_dict[person]['percent_to_poi'] = 'NaN' 
 
 # new feature 'percent_from_poi'
 for person in data_dict.keys():
-	num = float(data_dict[person]['from_poi_to_this_person'])
-	den = float(data_dict[person]['to_messages'])
-	data_dict[person]['percent_from_poi'] = num/den
+	num = data_dict[person]['from_poi_to_this_person']
+	den = data_dict[person]['to_messages']
+
+	if den != 0 and num != 'NaN' and den != 'NaN':
+		data_dict[person]['percent_from_poi'] = float(num)/float(den)
+	else:
+		data_dict[person]['percent_from_poi'] = 'NaN'
 
 
 
@@ -114,8 +126,44 @@ plt.show()
 ### http://scikit-learn.org/stable/modules/pipeline.html
 
 # Provided to give you a starting point. Try a variety of classifiers.
+print "Classifiers without train/test sets:" 
+print "------------------------------------------------------------------------"
+
 from sklearn.naive_bayes import GaussianNB
+from sklearn import tree
+from sklearn import svm
+from sklearn import neighbors
+from sklearn.metrics import accuracy_score
+
 clf = GaussianNB()
+clf.fit(features, labels)
+pred = clf.predict(features)
+acc = accuracy_score(pred, labels)
+print "GaussianNB accuracy:", acc
+print "------------------------------------------------------------------------"
+
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(features, labels)
+pred = clf.predict(features)
+acc = accuracy_score(pred, labels)
+print "Decision Tree overfitting accuracy:", acc
+print "------------------------------------------------------------------------"
+
+clf = svm.SVC()
+clf.fit(features, labels)
+pred = clf.predict(features)
+acc = accuracy_score(pred, labels)
+print "SVC accuracy:", acc
+print "------------------------------------------------------------------------"
+
+clf = neighbors.KNeighborsClassifier()
+clf.fit(features, labels)
+pred = clf.predict(features)
+acc = accuracy_score(pred, labels)
+print "KNeighborsClassifier accuracy:", acc
+
+
+#print features
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script. Check the tester.py script in the final project
