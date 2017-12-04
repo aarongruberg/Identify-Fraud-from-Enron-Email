@@ -42,8 +42,7 @@ from sklearn.feature_selection import SelectKBest
 ### SELECTED FEATURES LIST
 ### Univariate feature selection with selectKBest
 features_list = ['poi', 'salary', 'deferred_income', \
-'loan_advances', 'other', 'long_term_incentive', \
-'percent_to_poi', 'percent_shared_with_poi', 'percent_bonus']
+'percent_to_poi', 'percent_bonus']
 
 ### Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
@@ -126,17 +125,17 @@ labels, features = targetFeatureSplit(data)
 
 
 ### Feature selection using selectKBest
-kbest = SelectKBest(k=8)
-selected_features = kbest.fit_transform(features, labels)
-print "8 best features:"
+### Features and scores are printed
+kbest = SelectKBest(k=4)
+selector = kbest.fit_transform(features, labels)
+print "4 best features:"
 print "--------------------------------------------------------------- "
 
-for i in kbest.get_support(indices=True):
-	print features_list[i+1]
-	
+for i, j in zip(kbest.get_support(indices=True), kbest.scores_):
+	print features_list[i+1], j 
 
 
-# Visualize data
+### Visualize data
 for point in data:
 	plt.scatter(point[0], point[2])
 
@@ -157,34 +156,52 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn import tree
 from sklearn import svm
 from sklearn import neighbors
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
 
 clf = GaussianNB()
 clf.fit(features, labels)
 pred = clf.predict(features)
 acc = accuracy_score(pred, labels)
 print "GaussianNB accuracy:", acc
+print "Precision:", precision_score(y_true=labels, y_pred=pred)
+print "Recall:", recall_score(y_true=labels, y_pred=pred)
 
 clf = tree.DecisionTreeClassifier()
 clf = clf.fit(features, labels)
 pred = clf.predict(features)
 acc = accuracy_score(pred, labels)
 print "Decision Tree overfitting accuracy:", acc
+print "Precision:", precision_score(y_true=labels, y_pred=pred)
+print "Recall:", recall_score(y_true=labels, y_pred=pred)
 
 clf = svm.SVC()
 clf.fit(features, labels)
 pred = clf.predict(features)
 acc = accuracy_score(pred, labels)
 print "SVC accuracy:", acc
+print "Precision:", precision_score(y_true=labels, y_pred=pred)
+print "Recall:", recall_score(y_true=labels, y_pred=pred)
 
 clf = neighbors.KNeighborsClassifier()
 clf.fit(features, labels)
 pred = clf.predict(features)
 acc = accuracy_score(pred, labels)
 print "KNeighborsClassifier accuracy:", acc
+print "Precision:", precision_score(y_true=labels, y_pred=pred)
+print "Recall:", recall_score(y_true=labels, y_pred=pred)
 
+clf = AdaBoostClassifier()
+clf.fit(features, labels)
+pred = clf.predict(features)
+acc = accuracy_score(pred, labels)
+print "AdaBoostClassifier accuracy:", acc 
+print "Precision:", precision_score(y_true=labels, y_pred=pred)
+print "Recall:", recall_score(y_true=labels, y_pred=pred)
 
-#print features
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script. Check the tester.py script in the final project
@@ -198,6 +215,8 @@ from sklearn.cross_validation import train_test_split
 features_train, features_test, labels_train, labels_test = \
     train_test_split(features, labels, test_size=0.3, random_state=42)
 
+from sklearn.model_selection import GridSearchCV
+
 print "After training and testing:" 
 print "------------------------------------------------------------------------"
 
@@ -206,24 +225,58 @@ clf.fit(features_train, labels_train)
 pred = clf.predict(features_test)
 acc = accuracy_score(pred, labels_test)
 print "GaussianNB accuracy:", acc
+print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
+print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
 
 clf = tree.DecisionTreeClassifier()
 clf = clf.fit(features_train, labels_train)
 pred = clf.predict(features_test)
 acc = accuracy_score(pred, labels_test)
-print "Decision Tree overfitting accuracy:", acc
+print "Decision Tree accuracy:", acc
+print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
+print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
 
 clf = svm.SVC()
 clf.fit(features_train, labels_train)
 pred = clf.predict(features_test)
 acc = accuracy_score(pred, labels_test)
 print "SVC accuracy:", acc
+print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
+print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
 
 clf = neighbors.KNeighborsClassifier()
 clf.fit(features_train, labels_train)
 pred = clf.predict(features_test)
 acc = accuracy_score(pred, labels_test)
 print "KNeighborsClassifier accuracy:", acc
+print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
+print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
+
+clf = AdaBoostClassifier()
+clf.fit(features_train, labels_train)
+pred = clf.predict(features_test)
+acc = accuracy_score(pred, labels_test)
+print "AdaBoostClassifier accuracy:", acc 
+print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
+print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
+
+
+
+print "Parameter tuning with GridSearchCV:"
+print "-------------------------------------------------------------------------"
+
+
+parameters = {'n_estimators': [18, 20, 22, 24], 'learning_rate': [0.10, 0.25, 0.50, 0.75]}
+adb = AdaBoostClassifier()
+clf = GridSearchCV(adb, parameters)
+clf.fit(features_train, labels_train)
+pred = clf.predict(features_test)
+acc = accuracy_score(pred, labels_test)
+print "AdaBoostClassifier accuracy:", acc
+print "Best Parameters:", clf.best_params_
+
+print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
+print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
 ### check your results. You do not need to change anything below, but make sure
