@@ -265,8 +265,34 @@ print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
 print "Parameter tuning with GridSearchCV:"
 print "-------------------------------------------------------------------------"
 
+### Default Adaboost 'n_estimators' and 'learning_rate' parameters gave the best results 
+### Accuracy: 0.857
+### Precision: 0.6
+### Recall: 0.5
 
-parameters = {'n_estimators': [18, 20, 22, 24], 'learning_rate': [0.10, 0.25, 0.50, 0.75]}
+### Varied 'learning_rate' for fixed 'n_estimators' value of 50
+### 'learning_rate' best value: 0.90
+#parameters = {'n_estimators': [50], 'learning_rate': [0.70, 0.80, 0.90, 1]}
+
+
+### Varied 'n_estimators' for fixed 'learning_rate' value of 1
+### 'n_estimators' best value: 43
+#parameters = {'n_estimators': [41, 42, 43, 44, 45], 'learning_rate': [1]}
+
+### Varied 'n_estimators' for fixed 'learning_rate' value of 0.90
+### I chose a range of 'n_estimators' around the previous best value of 43
+### 'n_estimators' best value: 38
+### Accuracy: 0.829
+### Precision: 0.5
+### Recall: 0.5
+parameters = {'n_estimators': [35, 36, 37, 38, 39, 40], 'learning_rate': [0.90]}
+
+### Fixed 'n_estimators' to 38 and 'learning_rate' to 0.90
+### Experimented with a third parameter 'random_state'
+### This did not affect accuracy, precision or recall.
+#parameters = {'n_estimators': [38], 'learning_rate': [0.90], 'random_state':[1, 2, 3, 4, 5, None]}
+
+
 adb = AdaBoostClassifier()
 clf = GridSearchCV(adb, parameters)
 clf.fit(features_train, labels_train)
