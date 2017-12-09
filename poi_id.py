@@ -48,6 +48,37 @@ features_list = ['poi', 'salary', 'deferred_income', \
 with open("final_project_dataset.pkl", "r") as data_file:
     data_dict = pickle.load(data_file)
 
+
+### DATA PROFILE
+c = 0
+total_c = 0
+poi = 0
+not_poi = 0
+for person in data_dict.keys():
+	c += 1
+	feature_c = 0
+	
+	if data_dict[person]['poi'] == True:
+		poi += 1
+
+	else: 
+		not_poi += 1
+
+	for feature in data_dict[person]:
+		feature_c += 1
+		total_c += 1
+
+print "\n"
+print "Data Profile"
+print "-----------------------------------------------------------------"
+print "Number of employees:", c
+print "Number of features per employee:", feature_c 
+print "Total number of data points before feature selection:", total_c 
+print "Total pois:", poi 
+print "Total not pois:", not_poi
+print "\n"
+
+
 ### Task 2: Remove outliers
 
 # many outliers in this dataset are important and should be kept
@@ -117,6 +148,97 @@ for person in data_dict.keys():
 	data_dict[person]['percent_bonus'] = computePercent(num, den)
 
 
+
+### Counting NaN values for selected features
+print "NaN values:"
+print "-----------------------------------------------------------------"
+poi_nan = 0
+salary_nan = 0
+deferred_income_nan = 0
+loan_advances_nan = 0
+percent_to_poi_nan = 0
+percent_bonus_nan = 0
+other_nan = 0
+long_term_incentive_nan = 0
+percent_exercised_stock_nan = 0
+percent_restricted_stock_nan = 0
+percent_restricted_stock_deferred_nan = 0
+percent_from_poi_nan = 0
+percent_shared_with_poi_nan = 0
+percent_deferral_payments_nan = 0
+percent_expenses_nan = 0
+percent_director_fees_nan = 0
+
+for person in data_dict.keys():
+	if data_dict[person]['poi'] == 'NaN':
+		poi_nan += 1
+
+	if data_dict[person]['salary'] == 'NaN':
+		salary_nan += 1
+
+	if data_dict[person]['deferred_income'] == 'NaN':
+		deferred_income_nan += 1
+
+	if data_dict[person]['loan_advances'] == 'NaN':
+		loan_advances_nan += 1
+
+	if data_dict[person]['other'] == 'NaN':
+		other_nan += 1
+
+	if data_dict[person]['long_term_incentive'] == 'NaN':
+		long_term_incentive_nan += 1
+
+	if data_dict[person]['percent_exercised_stock'] == 'NaN':
+		percent_exercised_stock_nan += 1
+
+	if data_dict[person]['percent_to_poi'] == 'NaN':
+		percent_to_poi_nan += 1
+
+	if data_dict[person]['percent_bonus'] == 'NaN':
+		percent_bonus_nan += 1
+
+	if data_dict[person]['percent_restricted_stock'] == 'NaN':
+		percent_restricted_stock_nan += 1
+
+	if data_dict[person]['percent_restricted_stock_deferred'] == 'NaN':
+		percent_restricted_stock_deferred_nan += 1
+
+	if data_dict[person]['percent_from_poi'] == 'NaN':
+		percent_from_poi_nan += 1
+
+	if data_dict[person]['percent_shared_with_poi'] == 'NaN':
+		percent_shared_with_poi_nan += 1
+
+	if data_dict[person]['percent_deferral_payments'] == 'NaN':
+		percent_deferral_payments_nan += 1
+
+	if data_dict[person]['percent_expenses'] == 'NaN':
+		percent_expenses_nan += 1
+
+	if data_dict[person]['percent_director_fees'] == 'NaN':
+		percent_director_fees_nan += 1
+
+
+print "poi:", poi_nan
+print "salary:", salary_nan
+print "deferred_income:", deferred_income_nan
+print "loan_advances:", loan_advances_nan
+print "other:", other_nan
+print "long_term_incentive:", long_term_incentive_nan 
+print "percent_exercised_stock:", percent_exercised_stock_nan
+print "percent_restricted_stock:", percent_restricted_stock_nan
+print "percent_restricted_stock_deferred:", percent_restricted_stock_deferred_nan
+print "percent_to_poi:", percent_to_poi_nan
+print "percent_from_poi:", percent_from_poi_nan
+print "percent_shared_with_poi:", percent_shared_with_poi_nan
+print "percent_deferral_payments:", percent_deferral_payments_nan
+print "percent_expenses:", percent_expenses_nan
+print "percent_director_fees:", percent_director_fees_nan
+print "percent_bonus:", percent_bonus_nan
+print "\n"
+
+
+
 my_dataset = data_dict
 
 ### Extract features and labels from dataset for local testing
@@ -133,7 +255,7 @@ print "--------------------------------------------------------------- "
 
 for i, j in zip(kbest.get_support(indices=True), kbest.scores_):
 	print features_list[i+1], j 
-
+print "\n"
 
 ### Visualize data
 for point in data:
@@ -202,6 +324,7 @@ print "AdaBoostClassifier accuracy:", acc
 print "Precision:", precision_score(y_true=labels, y_pred=pred)
 print "Recall:", recall_score(y_true=labels, y_pred=pred)
 
+print "\n"
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script. Check the tester.py script in the final project
@@ -260,6 +383,7 @@ print "AdaBoostClassifier accuracy:", acc
 print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
 print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
 
+print "\n"
 
 
 print "Parameter tuning with GridSearchCV:"
