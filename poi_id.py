@@ -31,18 +31,32 @@ from sklearn.feature_selection import SelectKBest
 ### that contained redundant information such as 'from_this_person_to_poi'
 ### or 'from_messages'.
 
-### COMPLETE SCALED FEATURES LIST.  Remember that 'poi' is a label.
-# features_list = ['poi','salary', 'deferred_income', 'loan_advances', \
-#  'other', 'long_term_incentive', 'percent_exercised_stock', \
-#  'percent_restricted_stock', 'percent_restricted_stock_deferred', \
-#  'percent_to_poi', 'percent_from_poi', 'percent_shared_with_poi', \
-#  'percent_deferral_payments', 'percent_expenses', 'percent_director_fees', \
-#  'percent_bonus'] # You will need to use more features
+### COMPLETE FEATURES LIST
+#features_list = ['poi','salary', 'deferral_payments', 'total_payments', 'loan_advances', \
+#'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 'expenses', \
+#'exercised_stock_options', 'other', 'long_term_incentive', 'restricted_stock', \
+#'director_fees', 'to_messages', 'from_poi_to_this_person', 'from_messages', \
+#'from_this_person_to_poi', 'shared_receipt_with_poi']
+
+### SCALED FEATURES LIST.  Remember that 'poi' is a label.
+#features_list = ['poi','salary', 'deferred_income', 'loan_advances', \
+#'other', 'long_term_incentive', 'percent_exercised_stock', \
+#'percent_restricted_stock', 'percent_restricted_stock_deferred', \
+#'percent_to_poi', 'percent_from_poi', 'percent_shared_with_poi', \
+#'percent_deferral_payments', 'percent_expenses', 'percent_director_fees', \
+#'percent_bonus']
+
+### TOP 4 FEATURES
+features_list = ['poi','exercised_stock_options', 'total_stock_value', 'bonus', \
+'salary', 'percent_exercised_stock', 'percent_bonus']
+
+### SCALED FEATURES
+#features_list = ['poi','percent_exercised_stock', 'percent_bonus']
 
 ### SELECTED FEATURES LIST
 ### Univariate feature selection with selectKBest
-features_list = ['poi', 'salary', 'deferred_income', \
-'percent_to_poi', 'percent_bonus']
+#features_list = ['poi', 'salary', 'deferred_income', \
+#'percent_to_poi', 'percent_bonus']
 
 ### Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
@@ -248,14 +262,25 @@ labels, features = targetFeatureSplit(data)
 
 ### Feature selection using selectKBest
 ### Features and scores are printed
-kbest = SelectKBest(k=4)
-selector = kbest.fit_transform(features, labels)
-print "4 best features:"
+### Need to print features and scores in descending order
+print "Feature Selection with SelectKBest:"
 print "--------------------------------------------------------------- "
 
+# Create dict of feature scores
+feature_scores = {}
+kbest = SelectKBest(k='all')
+selector = kbest.fit_transform(features, labels)
+
 for i, j in zip(kbest.get_support(indices=True), kbest.scores_):
-	print features_list[i+1], j 
+	feature_scores[features_list[i+1]] = j
+
+#print feature_scores
+# Create a representation of 'feature_scores' sorted by value in descending order
+import operator
+sorted_feature_scores = sorted(feature_scores.items(), key=operator.itemgetter(1), reverse = True)
+print sorted_feature_scores
 print "\n"
+
 
 ### Visualize data
 for point in data:
@@ -409,24 +434,33 @@ print "-------------------------------------------------------------------------
 ### Accuracy: 0.829
 ### Precision: 0.5
 ### Recall: 0.5
-parameters = {'n_estimators': [35, 36, 37, 38, 39, 40], 'learning_rate': [0.90]}
 
-### Fixed 'n_estimators' to 38 and 'learning_rate' to 0.90
-### Experimented with a third parameter 'random_state'
-### This did not affect accuracy, precision or recall.
-#parameters = {'n_estimators': [38], 'learning_rate': [0.90], 'random_state':[1, 2, 3, 4, 5, None]}
+### ADABOOST CLASSIFIER TUNING
+#parameters = {'n_estimators': [50], 'learning_rate': [0.25, 0.50, 0.75, 1, 1.5, 2, 2.5, 3, 3.5, 4]}
+#adb = AdaBoostClassifier()
+#clf = GridSearchCV(adb, parameters)
+#clf.fit(features_train, labels_train)
+#pred = clf.predict(features_test)
+#acc = accuracy_score(pred, labels_test)
+#print "AdaBoostClassifier accuracy:", acc
+#print "Best Parameters:", clf.best_params_
 
+#print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
+#print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
 
-adb = AdaBoostClassifier()
-clf = GridSearchCV(adb, parameters)
+### KNEIGHBORS CLASSIFIER TUNING
+parameters = {'n_neighbors': [1, 2, 3], 'weights': ('uniform', 'distance')}
+kneighbors = neighbors.KNeighborsClassifier()
+clf = GridSearchCV(kneighbors, parameters)
 clf.fit(features_train, labels_train)
 pred = clf.predict(features_test)
 acc = accuracy_score(pred, labels_test)
-print "AdaBoostClassifier accuracy:", acc
-print "Best Parameters:", clf.best_params_
+print "KNeighborsClassifier accuracy:", acc 
+print "Best Parameters:", clf.best_params_  
 
 print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
 print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
+
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
 ### check your results. You do not need to change anything below, but make sure
