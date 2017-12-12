@@ -17,46 +17,18 @@ from sklearn.feature_selection import SelectKBest
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
 
-### restricted stock is stock that is given from employer
-### to employee and cannot be transferred.
-### Stock deferrals delay delivery of shares to employee 
-### until a specified date i.e. retirement.
-### deferral payments refer to buying something without
-### making payments until a specified date.
-### deferred income in money that is received upfront 
-### but reported in installments i.e. annual fee 12,000
-### is reported as 1,000 each month.
 
-### Created new features and excluded any original features
-### that contained redundant information such as 'from_this_person_to_poi'
-### or 'from_messages'.
-
-### COMPLETE FEATURES LIST
+### COMPLETE FEATURES LIST excluding 'email_address'
 #features_list = ['poi','salary', 'deferral_payments', 'total_payments', 'loan_advances', \
 #'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 'expenses', \
 #'exercised_stock_options', 'other', 'long_term_incentive', 'restricted_stock', \
 #'director_fees', 'to_messages', 'from_poi_to_this_person', 'from_messages', \
 #'from_this_person_to_poi', 'shared_receipt_with_poi']
 
-### SCALED FEATURES LIST.  Remember that 'poi' is a label.
-#features_list = ['poi','salary', 'deferred_income', 'loan_advances', \
-#'other', 'long_term_incentive', 'percent_exercised_stock', \
-#'percent_restricted_stock', 'percent_restricted_stock_deferred', \
-#'percent_to_poi', 'percent_from_poi', 'percent_shared_with_poi', \
-#'percent_deferral_payments', 'percent_expenses', 'percent_director_fees', \
-#'percent_bonus']
 
-### TOP 4 FEATURES
-features_list = ['poi','exercised_stock_options', 'total_stock_value', 'bonus', \
-'salary', 'percent_exercised_stock', 'percent_bonus']
+### TOP 4 FEATURES from SelectKBest scores on the complete features list
+features_list = ['poi','exercised_stock_options', 'total_stock_value', 'bonus']
 
-### SCALED FEATURES
-#features_list = ['poi','percent_exercised_stock', 'percent_bonus']
-
-### SELECTED FEATURES LIST
-### Univariate feature selection with selectKBest
-#features_list = ['poi', 'salary', 'deferred_income', \
-#'percent_to_poi', 'percent_bonus']
 
 ### Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
@@ -115,47 +87,6 @@ for person in data_dict.keys():
 	den = data_dict[person]['total_stock_value']
 	data_dict[person]['percent_exercised_stock'] = computePercent(num, den)
 	
-	# new feature 'percent_restricted_stock'
-	num = data_dict[person]['restricted_stock']
-	den = data_dict[person]['total_stock_value']
-	data_dict[person]['percent_restricted_stock'] = computePercent(num, den)
-	
-	# new feature 'percent_restricted_stock_deferred'
-	num = data_dict[person]['restricted_stock_deferred']
-	den = data_dict[person]['total_stock_value']
-	data_dict[person]['percent_restricted_stock_deferred'] = computePercent(num, den)
-	
-	# new feature 'percent_to_poi'
-	num = data_dict[person]['from_this_person_to_poi']
-	den = data_dict[person]['from_messages']
-	data_dict[person]['percent_to_poi'] = computePercent(num, den)
-
-	# new feature 'percent_from_poi'
-	num = data_dict[person]['from_poi_to_this_person']
-	den = data_dict[person]['to_messages']
-	data_dict[person]['percent_from_poi'] = computePercent(num, den)
-
-	# new feature 'percent_shared_with_poi'
-	num = data_dict[person]['shared_receipt_with_poi']
-	den = data_dict[person]['from_messages']
-	den += data_dict[person]['to_messages']
-	data_dict[person]['percent_shared_with_poi'] = computePercent(num, den)
-
-	# new feature 'percent_deferral_payments'
-	num = data_dict[person]['deferral_payments']
-	den = data_dict[person]['total_payments']
-	data_dict[person]['percent_deferral_payments'] = computePercent(num, den)
-
-	# new feature 'percent_expenses'
-	num = data_dict[person]['expenses']
-	den = data_dict[person]['total_payments']
-	data_dict[person]['percent_expenses'] = computePercent(num, den)
-
-	# new feature 'percent_director_fees'
-	num = data_dict[person]['director_fees']
-	den = data_dict[person]['total_payments']
-	data_dict[person]['percent_director_fees'] = computePercent(num, den)
-
 	# new feature 'percent_bonus'
 	num = data_dict[person]['bonus']
 	den = data_dict[person]['salary']
@@ -167,88 +98,34 @@ for person in data_dict.keys():
 print "NaN values:"
 print "-----------------------------------------------------------------"
 poi_nan = 0
+exercised_stock_options_nan = 0
+total_stock_value_nan = 0
+bonus_nan = 0
 salary_nan = 0
-deferred_income_nan = 0
-loan_advances_nan = 0
-percent_to_poi_nan = 0
-percent_bonus_nan = 0
-other_nan = 0
-long_term_incentive_nan = 0
-percent_exercised_stock_nan = 0
-percent_restricted_stock_nan = 0
-percent_restricted_stock_deferred_nan = 0
-percent_from_poi_nan = 0
-percent_shared_with_poi_nan = 0
-percent_deferral_payments_nan = 0
-percent_expenses_nan = 0
-percent_director_fees_nan = 0
 
 for person in data_dict.keys():
 	if data_dict[person]['poi'] == 'NaN':
 		poi_nan += 1
 
+	if data_dict[person]['exercised_stock_options'] == 'NaN':
+		exercised_stock_options_nan += 1
+
+	if data_dict[person]['total_stock_value'] == 'NaN':
+		total_stock_value_nan += 1
+
+	if data_dict[person]['bonus'] == 'NaN':
+		bonus_nan += 1
+
 	if data_dict[person]['salary'] == 'NaN':
 		salary_nan += 1
 
-	if data_dict[person]['deferred_income'] == 'NaN':
-		deferred_income_nan += 1
-
-	if data_dict[person]['loan_advances'] == 'NaN':
-		loan_advances_nan += 1
-
-	if data_dict[person]['other'] == 'NaN':
-		other_nan += 1
-
-	if data_dict[person]['long_term_incentive'] == 'NaN':
-		long_term_incentive_nan += 1
-
-	if data_dict[person]['percent_exercised_stock'] == 'NaN':
-		percent_exercised_stock_nan += 1
-
-	if data_dict[person]['percent_to_poi'] == 'NaN':
-		percent_to_poi_nan += 1
-
-	if data_dict[person]['percent_bonus'] == 'NaN':
-		percent_bonus_nan += 1
-
-	if data_dict[person]['percent_restricted_stock'] == 'NaN':
-		percent_restricted_stock_nan += 1
-
-	if data_dict[person]['percent_restricted_stock_deferred'] == 'NaN':
-		percent_restricted_stock_deferred_nan += 1
-
-	if data_dict[person]['percent_from_poi'] == 'NaN':
-		percent_from_poi_nan += 1
-
-	if data_dict[person]['percent_shared_with_poi'] == 'NaN':
-		percent_shared_with_poi_nan += 1
-
-	if data_dict[person]['percent_deferral_payments'] == 'NaN':
-		percent_deferral_payments_nan += 1
-
-	if data_dict[person]['percent_expenses'] == 'NaN':
-		percent_expenses_nan += 1
-
-	if data_dict[person]['percent_director_fees'] == 'NaN':
-		percent_director_fees_nan += 1
 
 
 print "poi:", poi_nan
+print "exercised_stock_options:", exercised_stock_options_nan
+print "total_stock_value:", total_stock_value_nan
+print "bonus:", bonus_nan
 print "salary:", salary_nan
-print "deferred_income:", deferred_income_nan
-print "loan_advances:", loan_advances_nan
-print "other:", other_nan
-print "long_term_incentive:", long_term_incentive_nan 
-print "percent_exercised_stock:", percent_exercised_stock_nan
-print "percent_restricted_stock:", percent_restricted_stock_nan
-print "percent_restricted_stock_deferred:", percent_restricted_stock_deferred_nan
-print "percent_to_poi:", percent_to_poi_nan
-print "percent_from_poi:", percent_from_poi_nan
-print "percent_shared_with_poi:", percent_shared_with_poi_nan
-print "percent_deferral_payments:", percent_deferral_payments_nan
-print "percent_expenses:", percent_expenses_nan
-print "percent_director_fees:", percent_director_fees_nan
-print "percent_bonus:", percent_bonus_nan
 print "\n"
 
 
@@ -260,9 +137,7 @@ data = featureFormat(my_dataset, features_list, sort_keys = True)
 labels, features = targetFeatureSplit(data)
 
 
-### Feature selection using selectKBest
-### Features and scores are printed
-### Need to print features and scores in descending order
+### Feature Selection using selectKBest
 print "Feature Selection with SelectKBest:"
 print "--------------------------------------------------------------- "
 
@@ -288,7 +163,6 @@ for point in data:
 
 #plt.show()
 
-
 ### Task 4: Try a varity of classifiers
 ### Please name your classifier clf for easy export below.
 ### Note that if you want to do PCA or other multi-stage operations,
@@ -296,7 +170,7 @@ for point in data:
 ### http://scikit-learn.org/stable/modules/pipeline.html
 
 # Provided to give you a starting point. Try a variety of classifiers.
-print "Classifiers without train/test sets:" 
+print "Classifiers without Validation:" 
 print "------------------------------------------------------------------------"
 
 from sklearn.naive_bayes import GaussianNB
@@ -358,108 +232,40 @@ print "\n"
 ### stratified shuffle split cross validation. For more info: 
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
 
-# Example starting point. Try investigating other evaluation techniques!
+print "Parameter tuning with GridSearchCV:"
+print "-------------------------------------------------------------------------"
+
 from sklearn.cross_validation import train_test_split
 features_train, features_test, labels_train, labels_test = \
     train_test_split(features, labels, test_size=0.3, random_state=42)
 
 from sklearn.model_selection import GridSearchCV
 
-print "After training and testing:" 
-print "------------------------------------------------------------------------"
+### GridSearchCV can handle cross validation when the fit function is called
+### This means the whole dataset can be passed to the algorithm without partitioning.
 
-clf = GaussianNB()
-clf.fit(features_train, labels_train)
-pred = clf.predict(features_test)
-acc = accuracy_score(pred, labels_test)
-print "GaussianNB accuracy:", acc
-print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
-print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
+### DECISION TREE TUNING
+parameters = {'random_state': [None, 40, 45, 50, 55], 'splitter': ("best", "random")}
+dt = tree.DecisionTreeClassifier()
+clf = GridSearchCV(dt, parameters)
+clf.fit(features, labels)
+pred = clf.predict(features)
+best_clf = clf.best_estimator_
+acc = accuracy_score(pred, labels)
+print "DecisionTreeClassifier accuracy:", acc
+print "Best Parameters:", clf.best_params_
 
-clf = tree.DecisionTreeClassifier()
-clf = clf.fit(features_train, labels_train)
-pred = clf.predict(features_test)
-acc = accuracy_score(pred, labels_test)
-print "Decision Tree accuracy:", acc
-print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
-print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
+print "Precision:", precision_score(y_true=labels, y_pred=pred)
+print "Recall:", recall_score(y_true=labels, y_pred=pred)
 
-clf = svm.SVC()
-clf.fit(features_train, labels_train)
-pred = clf.predict(features_test)
-acc = accuracy_score(pred, labels_test)
-print "SVC accuracy:", acc
-print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
-print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
-
-clf = neighbors.KNeighborsClassifier()
-clf.fit(features_train, labels_train)
-pred = clf.predict(features_test)
-acc = accuracy_score(pred, labels_test)
-print "KNeighborsClassifier accuracy:", acc
-print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
-print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
-
-clf = AdaBoostClassifier()
-clf.fit(features_train, labels_train)
-pred = clf.predict(features_test)
-acc = accuracy_score(pred, labels_test)
-print "AdaBoostClassifier accuracy:", acc 
-print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
-print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
 
 print "\n"
 
-
-print "Parameter tuning with GridSearchCV:"
+print "Results from tester.py:"
 print "-------------------------------------------------------------------------"
 
-### Default Adaboost 'n_estimators' and 'learning_rate' parameters gave the best results 
-### Accuracy: 0.857
-### Precision: 0.6
-### Recall: 0.5
-
-### Varied 'learning_rate' for fixed 'n_estimators' value of 50
-### 'learning_rate' best value: 0.90
-#parameters = {'n_estimators': [50], 'learning_rate': [0.70, 0.80, 0.90, 1]}
-
-
-### Varied 'n_estimators' for fixed 'learning_rate' value of 1
-### 'n_estimators' best value: 43
-#parameters = {'n_estimators': [41, 42, 43, 44, 45], 'learning_rate': [1]}
-
-### Varied 'n_estimators' for fixed 'learning_rate' value of 0.90
-### I chose a range of 'n_estimators' around the previous best value of 43
-### 'n_estimators' best value: 38
-### Accuracy: 0.829
-### Precision: 0.5
-### Recall: 0.5
-
-### ADABOOST CLASSIFIER TUNING
-#parameters = {'n_estimators': [50], 'learning_rate': [0.25, 0.50, 0.75, 1, 1.5, 2, 2.5, 3, 3.5, 4]}
-#adb = AdaBoostClassifier()
-#clf = GridSearchCV(adb, parameters)
-#clf.fit(features_train, labels_train)
-#pred = clf.predict(features_test)
-#acc = accuracy_score(pred, labels_test)
-#print "AdaBoostClassifier accuracy:", acc
-#print "Best Parameters:", clf.best_params_
-
-#print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
-#print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
-
-### KNEIGHBORS CLASSIFIER TUNING
-parameters = {'n_neighbors': [1, 2, 3], 'weights': ('uniform', 'distance')}
-kneighbors = neighbors.KNeighborsClassifier()
-clf = GridSearchCV(kneighbors, parameters)
-clf.fit(features_train, labels_train)
-pred = clf.predict(features_test)
-acc = accuracy_score(pred, labels_test)
-print "KNeighborsClassifier accuracy:", acc 
-print "Best Parameters:", clf.best_params_  
-
-print "Precision:", precision_score(y_true=labels_test, y_pred=pred)
-print "Recall:", recall_score(y_true=labels_test, y_pred=pred)
+from tester import test_classifier
+test_classifier(best_clf, my_dataset, features_list, folds = 1000)
 
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
