@@ -159,7 +159,7 @@ print "\n"
 
 ### Visualize data
 for point in data:
-	plt.scatter(point[0], point[2])
+	plt.scatter(point[0], point[1])
 
 #plt.show()
 
@@ -245,7 +245,7 @@ from sklearn.model_selection import GridSearchCV
 ### This means the whole dataset can be passed to the algorithm without partitioning.
 
 ### DECISION TREE TUNING
-parameters = {'random_state': [None, 40, 45, 50, 55], 'splitter': ("best", "random")}
+parameters = {'random_state': [None, 20, 30, 40, 50, 60], 'splitter': ("best", "random")}
 dt = tree.DecisionTreeClassifier()
 clf = GridSearchCV(dt, parameters)
 clf.fit(features, labels)
