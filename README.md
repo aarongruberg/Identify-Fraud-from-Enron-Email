@@ -2,7 +2,7 @@
 
 <p>The goal of this project was to write a script 'poi_id.py' to predict an employee's poi label based on their financial and email features.  The script 'helper.py' contains helper functions for finding the max/min values of a feature and creating new features based on percentages.</p>
 
-<p>'poi_id.py' opens the 'final_project_dataset.pkl' file and sorts the data into a dictionary of dictionaries.  The 'feature_format.py' file was used to extract the features and labels from the dataset.  Multiple algorithms were deployed and one was selected and tuned for final analysis.  The 'tester.py' file was used to evaluate the performance of the final algorithm and write the pickle files for the classifier, dataset, and features.</p>
+<p>'poi_id.py' opens the 'final_project_dataset.pkl' file and sorts the data into a dictionary of dictionaries.  The 'feature_format.py' file was imported to extract the features and labels from the dataset.  Multiple algorithms were deployed.  One was selected and tuned for final analysis.  The 'tester.py' file was imported to evaluate the performance of the final algorithm and write the pickle files for the classifier, dataset, and features.</p>
 
 ### Identify Fraud from Enron Email
 
@@ -171,6 +171,6 @@ features_list = ['poi','exercised_stock_options', 'total_stock_value', 'bonus']
 ###### Decision Tree
 
 best_parameters: {'max_depth': 10, 'min_samples_split': 6}  
-accuracy: 0.81000 
-precision: 0.36479    
+accuracy: 0.81000 .   
+precision: 0.36479 .     
 recall: 0.31700   
