@@ -245,13 +245,14 @@ from sklearn.model_selection import GridSearchCV
 ### This means the whole dataset can be passed to the algorithm without partitioning.
 
 ### DECISION TREE TUNING
-parameters = {'random_state': [None, 20, 30, 40, 50, 60], 'splitter': ("best", "random")}
+parameters = {'max_depth': [10], 'min_samples_split': [4, 5, 6, 7, 8]}
 dt = tree.DecisionTreeClassifier()
 clf = GridSearchCV(dt, parameters)
 clf.fit(features, labels)
 pred = clf.predict(features)
 best_clf = clf.best_estimator_
 acc = accuracy_score(pred, labels)
+
 print "DecisionTreeClassifier accuracy:", acc
 print "Best Parameters:", clf.best_params_
 
@@ -273,4 +274,4 @@ test_classifier(best_clf, my_dataset, features_list, folds = 1000)
 ### that the version of poi_id.py that you submit can be run on its own and
 ### generates the necessary .pkl files for validating your results.
 
-dump_classifier_and_data(clf, my_dataset, features_list)
+dump_classifier_and_data(best_clf, my_dataset, features_list)

@@ -11826,7 +11826,9 @@ Percent Bonus: 63</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Feature-Selection">Feature Selection<a class="anchor-link" href="#Feature-Selection">&#182;</a></h3><p>SelectKBest was used to get the feature importances for all features.  The feature importances are based on the chi squared value between each feature and the poi label.</p><p>exercised_stock_options: 24.815079733218194<br>
+<h3 id="Feature-Selection">Feature Selection<a class="anchor-link" href="#Feature-Selection">&#182;</a></h3><p>SelectKBest was used to get the feature importances for all features.  The feature importances are based on the chi squared value between each feature and the poi label.  The four features with the highest importance scores were selected.  The first element 'poi' is a label.  Feature scaling was not required for the decision tree algorithm that was deployed.</p><div class="highlight"><pre><span></span><span class="n">features_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;poi&#39;</span><span class="p">,</span><span class="s1">&#39;exercised_stock_options&#39;</span><span class="p">,</span> <span class="s1">&#39;total_stock_value&#39;</span><span class="p">,</span> <span class="s1">&#39;bonus&#39;</span><span class="p">,</span> <span class="s1">&#39;salary&#39;</span><span class="p">]</span>
+</pre></div>
+<p>exercised_stock_options: 24.815079733218194<br>
 total_stock_value: 24.182898678566879<br>
 bonus: 20.792252047181535<br>
 salary: 18.289684043404513<br>
@@ -11845,14 +11847,12 @@ to_messages: 1.6463411294420076<br>
 deferral_payments: 0.22461127473600989<br>
 from_messages: 0.16970094762175533<br>
 restricted_stock_deferred: 0.065499652909942141</p>
-<h6 id="Feature-Creation">Feature Creation<a class="anchor-link" href="#Feature-Creation">&#182;</a></h6><p>Additional features 'percent_exercised_stock' and 'percent_bonus' were created but their feature importances were very low.  'percent_exercised_stock' was the percent of 'total_stock_value' that was exercised and 'percent_bonus' was the percent of 'salary' equal to an employee's bonus.</p><p>exercised_stock_options: 21.153646538437151<br>
+<h3 id="Feature-Creation">Feature Creation<a class="anchor-link" href="#Feature-Creation">&#182;</a></h3><p>Additional features 'percent_exercised_stock' and 'percent_bonus' were created but their feature importances were very low.  'percent_exercised_stock' was the percent of 'total_stock_value' that was exercised and 'percent_bonus' was the percent of 'salary' equal to an employee's bonus.</p><p>exercised_stock_options: 21.153646538437151<br>
 total_stock_value: 20.492888346982209<br>
 bonus: 17.326074648455403<br>
 salary: 14.579307471130718<br>
 percent_bonus: 8.5695799793786058<br>
 percent_exercised_stock: 0.6724199516795144</p>
-<p>The four features with the highest importance scores were selected.  The first element 'poi' is a label.</p><div class="highlight"><pre><span></span><span class="n">features_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;poi&#39;</span><span class="p">,</span><span class="s1">&#39;exercised_stock_options&#39;</span><span class="p">,</span> <span class="s1">&#39;total_stock_value&#39;</span><span class="p">,</span> <span class="s1">&#39;bonus&#39;</span><span class="p">,</span> <span class="s1">&#39;salary&#39;</span><span class="p">]</span>
-</pre></div>
 
 </div>
 </div>
@@ -11861,7 +11861,7 @@ percent_exercised_stock: 0.6724199516795144</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Fitting-classifiers-without-training/testing">Fitting classifiers without training/testing<a class="anchor-link" href="#Fitting-classifiers-without-training/testing">&#182;</a></h3><p>A variety of classifiers were fit to all of the features and labels in the data set.  The features were used to make predictions about labels and these predicted labels were compared with the true labels.  The accuracy, precision, and recall of each algorithm was measured.  The precision is the amount of true positives divided by the sum of true positives and false positives.  It is the number of true positive 'poi' labels divided by all positive 'poi' labels regardless of whether or not they are true.  The recall is the number of true positives divided by the sum of true positives and false negatives.  It is the probability of algorithm to correctly identify a 'poi'.</p><h6 id="GaussianNB">GaussianNB<a class="anchor-link" href="#GaussianNB">&#182;</a></h6><p>accuracy: 0.869230769231<br>
+<h3 id="Fitting-classifiers-without-validation">Fitting classifiers without validation<a class="anchor-link" href="#Fitting-classifiers-without-validation">&#182;</a></h3><p>A variety of classifiers were fit to all of the features and labels in the data set.  The features were used to make predictions about labels and these predicted labels were compared with the true labels.  The accuracy, precision, and recall of each algorithm was measured.</p><p>The precision is the amount of true positives divided by the sum of true positives and false positives.  It is the (correctly identified pois)/(correctly identified pois + incorrectly identified pois).  Precision is a measure of exactness.  The recall is the (correctly identified pois)/(correctly identified pois + incorrectly identified non-pois).  Recall is a measure of completeness.  It gives the percentage of total pois in the dataset that were identified.</p><h6 id="GaussianNB">GaussianNB<a class="anchor-link" href="#GaussianNB">&#182;</a></h6><p>accuracy: 0.869230769231<br>
 precision: 0.545454545455<br>
 recall: 0.333333333333</p>
 <h6 id="Decision-Tree">Decision Tree<a class="anchor-link" href="#Decision-Tree">&#182;</a></h6><p>accuracy: 1.0<br>
@@ -11884,21 +11884,10 @@ recall: 1.0</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Fitting-classifiers-to-training-and-testing-sets">Fitting classifiers to training and testing sets<a class="anchor-link" href="#Fitting-classifiers-to-training-and-testing-sets">&#182;</a></h3><p>SK-Learn's 'train_test_split' function was used to split the data into training and testing sets.  This type of validation is useful to avoid overfitting the classifier and attaining a result that is much higher than the actual accuracy. 30% of the data was selected for the testing set.  The same classifiers were fit to the training features and training labels.  The test features were used to make predictions on the test labels and these predicted labels were compared with the true test labels.</p><h6 id="GaussianNB">GaussianNB<a class="anchor-link" href="#GaussianNB">&#182;</a></h6><p>accuracy: 0.897435897436<br>
-precision: 0.0<br>
-recall: 0.0</p>
-<h6 id="Decision-Tree">Decision Tree<a class="anchor-link" href="#Decision-Tree">&#182;</a></h6><p>accuracy: 0.871794871795<br>
-precision: 0.333333333333<br>
-recall: 0.25</p>
-<h6 id="SVC">SVC<a class="anchor-link" href="#SVC">&#182;</a></h6><p>accuracy: 0.897435897436<br>
-precision: 0.0<br>
-recall: 0.0</p>
-<h6 id="KNeighborsClassifier-.">KNeighborsClassifier .<a class="anchor-link" href="#KNeighborsClassifier-.">&#182;</a></h6><p>accuracy: 0.923076923077<br>
-precision: 1.0<br>
-recall: 0.25</p>
-<h6 id="Adaboost">Adaboost<a class="anchor-link" href="#Adaboost">&#182;</a></h6><p>accuracy: 0.769230769231<br>
-precision: 0.0<br>
-recall: 0.0</p>
+<h3 id="GridSearchCV">GridSearchCV<a class="anchor-link" href="#GridSearchCV">&#182;</a></h3><h6 id="Cross-Validation">Cross Validation<a class="anchor-link" href="#Cross-Validation">&#182;</a></h6><p>Validation is important because it allows us to test our algorithms performance and avoid overfitting to the data.</p><p>A decision tree algorithm was tuned using GridSearchCV.  Because GridSearchCV can do cross validation, the whole data set was passed to the algorithm instead of splitting the data into testing and training sets.  This is more useful because when data is split into train/test sets, the goal is to maximize the training set size to acheive the best learning outcome as well as maximize the test set size to acheive the best validation.  Partitioning the data like this caused a tradeoff because every data point used for the test set cannot be used by the training set and visa versa.  Cross validation partitions the data into bins of equal size and the learning experiment is run once for every bin in the set.  One bin is selected as the test set and the rest of the bins are selected for training.   This is done for every bin and the test results for each bin are averaged.  This takes more computing time but has better accuracy than training and testing sets.  The same data should not be used for both training and testing.  If a model fits to a training set and then tests on that same data then the model is not being tested or validated.</p><h6 id="Parameter-Tuning">Parameter Tuning<a class="anchor-link" href="#Parameter-Tuning">&#182;</a></h6><p>Poor parameter tuning can decrease the performance of the classifier.  It can also cause the classifier to overfit to the training data making it more difficult to perform well on the test data.  In the decision tree algorithm, the 'max_depth' parameter helps control the size of the tree.  This is important because if the tree gets too big the algorithm will overfit to the training data and have trouble validating on the test data.  The 'min_samples_split' parameter controls the number of samples at each node.  "A very small number will usually mean the tree will overfit, whereas a large number will prevent the tree from learning the data.(sklearn documentation)"  First, 'max_depth' was set to 3 while 'min_samples_split' was varied, then 'min_samples_split' was set to 5 while 'max_depth' was gradually increased.</p><h6 id="Decision-Tree">Decision Tree<a class="anchor-link" href="#Decision-Tree">&#182;</a></h6><p>best_parameters: {'max_depth': 10, 'min_samples_split': 6}<br>
+accuracy: 0.79792<br>
+precision: 0.32708<br>
+recall: 0.29650</p>
 
 </div>
 </div>
@@ -11907,25 +11896,27 @@ recall: 0.0</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Parameter-Tuning-with-GridSearchCV">Parameter Tuning with GridSearchCV<a class="anchor-link" href="#Parameter-Tuning-with-GridSearchCV">&#182;</a></h3><p>KNeighborsClassifier was selected for parameter tuning because it had the best performance after training and testing.  Parameter tuning can have a large impact on the final result of an algorithm.  When the default value of 5 for 'n_neighbors' was used the recall was only 0.25.  The 'n_neighbors' and 'weights' parameters were varied.</p><h6 id="KNeighborsClassifier">KNeighborsClassifier<a class="anchor-link" href="#KNeighborsClassifier">&#182;</a></h6><p>best_parameters: {'n_neighbors': 1, 'weights': 'uniform'}<br>
-accuracy: 0.846153846154<br>
-precision: 0.333333333333<br>
-recall: 0.5</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Effects-of-Additional-Features">Effects of Additional Features<a class="anchor-link" href="#Effects-of-Additional-Features">&#182;</a></h3><p><p>The KNeighborsClassifier was attempted with the percentage features created earlier, rather than the original features.  These scaled features increased the accuracy but resulted in an undefined precision score.</p></p>
-<div class="highlight"><pre><span></span><span class="n">features_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;poi&#39;</span><span class="p">,</span><span class="s1">&#39;percent_exercised_stock&#39;</span><span class="p">,</span> <span class="s1">&#39;percent_bonus&#39;</span><span class="p">]</span>
+<h3 id="Effects-of-Additional-Features">Effects of Additional Features<a class="anchor-link" href="#Effects-of-Additional-Features">&#182;</a></h3><p><p>The decision tree algorithm was attempted with one of the percentage features created earlier, rather than the original features.  The results were slightly worse.</p></p>
+<div class="highlight"><pre><span></span><span class="n">features_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;poi&#39;</span><span class="p">,</span><span class="s1">&#39;percent_exercised_stock&#39;</span><span class="p">,</span> <span class="s1">&#39;bonus&#39;</span><span class="p">,</span> <span class="s1">&#39;salary&#39;</span><span class="p">]</span>
 </pre></div>
-<h6 id="KNeighborsClassifier">KNeighborsClassifier<a class="anchor-link" href="#KNeighborsClassifier">&#182;</a></h6><p>best_parameters: {'n_neighbors': 2, 'weights': 'uniform'}<br>
-accuracy: 0.916666666667<br>
-precision: 0.0<br>
-recall: 0.0</p>
+<h6 id="Decision-Tree">Decision Tree<a class="anchor-link" href="#Decision-Tree">&#182;</a></h6><p>best_parameters: {'max_depth': 10, 'min_samples_split': 5}<br>
+accuracy: 0.78254<br>
+precision: 0.29232<br>
+recall: 0.29100</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Improving-Feature-Selection">Improving Feature Selection<a class="anchor-link" href="#Improving-Feature-Selection">&#182;</a></h3><p>I tried the decision tree algorithm again with only the top 3 features from the SelectKBest scores earlier.  The results were slightly better.</p><div class="highlight"><pre><span></span><span class="n">features_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;poi&#39;</span><span class="p">,</span><span class="s1">&#39;exercised_stock_options&#39;</span><span class="p">,</span> <span class="s1">&#39;total_stock_value&#39;</span><span class="p">,</span> <span class="s1">&#39;bonus&#39;</span><span class="p">]</span>
+</pre></div>
+<h6 id="Decision-Tree">Decision Tree<a class="anchor-link" href="#Decision-Tree">&#182;</a></h6><p>best_parameters: {'max_depth': 10, 'min_samples_split': 6}<br>
+accuracy: 0.81000 
+precision: 0.36479<br>
+recall: 0.31700</p>
 
 </div>
 </div>
