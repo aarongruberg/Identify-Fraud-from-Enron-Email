@@ -1,12 +1,12 @@
+# Identify Fraud from Enron Email
+
+<p>Machine learning techniques were applied to data from 146 Enron employees.  There were 21 features for each employee and 3066 total data points.  The data for each employee fell into 3 categories: financial, email, and poi label.  The poi label signified whether or not an employee was a person of interest in the Enron case.  18 employees were labeled as a poi and 128 employees were not.  5 machine learning algorithms were deployed to predict an employee's poi label based on their financial and email features.  1 algorithm was selected and tuned for final analysis.</p>
+
 ### Workflow
 
 <p>The goal of this project was to write a script 'poi_id.py' to predict an employee's poi label based on their financial and email features.  The script 'helper.py' contains helper functions for finding the max/min values of a feature and creating new features based on percentages.</p>
 
 <p>'poi_id.py' opens the 'final_project_dataset.pkl' file and sorts the data into a dictionary of dictionaries.  The 'feature_format.py' file was imported to extract the features and labels from the dataset.  Multiple algorithms were deployed.  One was selected and tuned for final analysis.  The 'tester.py' file was imported to evaluate the performance of the final algorithm and write the pickle files for the classifier, dataset, and features.</p>
-
-### Identify Fraud from Enron Email
-
-<p>Machine learning techniques were applied to data from 146 Enron employees.  There were 21 features for each employee and 3066 total data points.  The data for each employee fell into 3 categories: financial, email, and poi label.  The poi label signified whether or not an employee was a person of interest in the Enron case.  18 employees were labeled as a poi and 128 employees were not.  5 machine learning algorithms were deployed to predict an employee's poi label based on their financial and email features.  1 algorithm was selected and tuned for final analysis.</p>
 
 ### Data Structure
 
