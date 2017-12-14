@@ -171,6 +171,6 @@ features_list = ['poi','exercised_stock_options', 'total_stock_value', 'bonus']
 ###### Decision Tree
 
 best_parameters: {'max_depth': 10, 'min_samples_split': 6}  
-accuracy: 0.81000   
-precision: 0.36479    
-recall: 0.31700   
+accuracy: 0.81062   
+precision: 0.36538   
+recall: 0.31350   
