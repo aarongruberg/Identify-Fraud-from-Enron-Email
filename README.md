@@ -87,7 +87,7 @@ features_list = ['poi','exercised_stock_options', 'total_stock_value', 'bonus', 
 |bonus| 17.326|  
 |salary| 14.579|  
 |percent_bonus| 8.570|  
-|percent_exercised_stock| 0.6724199516795144|  
+|percent_exercised_stock| 0.672|  
 
 ### Fitting classifiers without validation
 
