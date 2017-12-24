@@ -149,7 +149,8 @@ recall: 0.29650
 
 ### Effects of Additional Features
 
-<p>The decision tree algorithm was attempted with one of the percentage features created earlier, rather than the original features.  The results were slightly worse.</p>  
+<p>The decision tree algorithm was attempted with one of the percentage features created earlier, rather than the original features.  The results were slightly worse.</p>
+
 ```Python
 features_list = ['poi','percent_exercised_stock', 'bonus', 'salary']
 ```
