@@ -30,26 +30,19 @@ datadict['SKILLING JEFFREY K']['salary']
 
 ### Missing Values
 
-<p>These are the total 'NaN' values for each feature.</p>
+<p>These are the total 'NaN' values for some of the features.</p>
 
-POI: 0  
+|Feature  |Total NaN|
+|---------|---------|
+|POI  | 0  |
+Exercised Stock Options: 43
+Total Stock Value: 19
+Bonus: 63
 Salary: 50  
 Deferred Income: 96  
 Loan Advances: 141  
 Other: 53  
-Long Term Incentive: 79  
-Percent Exercised Stock: 44  
-Percent Restricted Stock: 38  
-Percent Restricted Stock Deferred: 130  
-Percent to POI: 58  
-Percent from POI: 58  
-Percent Shared with POI: 58  
-Percent Deferral Payments: 106  
-Percent Expenses: 50  
-Percent Director Fees: 130  
-Percent Bonus: 63  
-
-### Outliers
+## Outliers
 
 <p>Many outliers in this dataset were important because they helped identify persons of interest.  However, some outliers did not correspond to a person.  The max value for financial features was from a 'TOTAL' key rather than a 'PERSON' key.  Another non-person key 'THE TRAVEL AGENCY IN THE PARK' was identified and these keys were removed from the data dictionary.</p>
 
