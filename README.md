@@ -33,7 +33,7 @@ datadict['SKILLING JEFFREY K']['salary']
 <p>These are the total 'NaN' values for some of the features.</p>
 
 |Feature  |Total NaN|
-|---------|---------|
+|---------|---------:|
 |POI  | 0  |
 |Exercised Stock Options| 43|
 |Total Stock Value| 19|
