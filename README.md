@@ -54,25 +54,27 @@ datadict['SKILLING JEFFREY K']['salary']
 features_list = ['poi','exercised_stock_options', 'total_stock_value', 'bonus', 'salary']
 ```  
 
-exercised_stock_options: 24.815079733218194  
-total_stock_value: 24.182898678566879  
-bonus: 20.792252047181535  
-salary: 18.289684043404513  
-deferred_income: 11.458476579280369  
-long_term_incentive: 9.9221860131898225  
-restricted_stock: 9.2128106219771002  
-total_payments: 8.7727777300916756  
-shared_receipt_with_poi: 8.589420731682381  
-loan_advances: 7.1840556582887247  
-expenses: 6.0941733106389453  
-from_poi_to_this_person: 5.2434497133749582  
-other: 4.1874775069953749  
-from_this_person_to_poi: 2.3826121082276739  
-director_fees: 2.1263278020077054  
-to_messages: 1.6463411294420076  
-deferral_payments: 0.22461127473600989  
-from_messages: 0.16970094762175533  
-restricted_stock_deferred: 0.065499652909942141
+|Feature| Importance Score|
+|-------|----------------:|
+|exercised_stock_options| 24.815079733218194|  
+|total_stock_value| 24.182898678566879|  
+|bonus| 20.792252047181535|  
+|salary| 18.289684043404513|  
+|deferred_income| 11.458476579280369|  
+|long_term_incentive| 9.9221860131898225|  
+|restricted_stock| 9.2128106219771002|  
+|total_payments| 8.7727777300916756|  
+|shared_receipt_with_poi| 8.589420731682381|  
+|loan_advances| 7.1840556582887247|  
+|expenses| 6.0941733106389453|  
+|from_poi_to_this_person| 5.2434497133749582|  
+|other| 4.1874775069953749|  
+|from_this_person_to_poi| 2.3826121082276739|  
+|director_fees| 2.1263278020077054|  
+|to_messages| 1.6463411294420076|  
+|deferral_payments| 0.22461127473600989|  
+|from_messages| 0.16970094762175533|  
+|restricted_stock_deferred| 0.065499652909942141|
 
 ### Feature Creation
 
