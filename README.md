@@ -165,7 +165,7 @@ recall: 0.29100
 
 <p>I tried the decision tree algorithm again with only the top 3 features from the SelectKBest scores earlier.  The results were slightly better.</p>
 
-```Python
+```Python .   
 features_list = ['poi','exercised_stock_options', 'total_stock_value', 'bonus']
 ```  
 ###### Decision Tree
