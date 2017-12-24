@@ -56,36 +56,38 @@ features_list = ['poi','exercised_stock_options', 'total_stock_value', 'bonus', 
 
 |Feature| Importance Score|
 |-------|----------------:|
-|exercised_stock_options| 24.815079733218194|  
-|total_stock_value| 24.182898678566879|  
-|bonus| 20.792252047181535|  
-|salary| 18.289684043404513|  
-|deferred_income| 11.458476579280369|  
-|long_term_incentive| 9.9221860131898225|  
-|restricted_stock| 9.2128106219771002|  
-|total_payments| 8.7727777300916756|  
-|shared_receipt_with_poi| 8.589420731682381|  
-|loan_advances| 7.1840556582887247|  
-|expenses| 6.0941733106389453|  
-|from_poi_to_this_person| 5.2434497133749582|  
-|other| 4.1874775069953749|  
-|from_this_person_to_poi| 2.3826121082276739|  
-|director_fees| 2.1263278020077054|  
-|to_messages| 1.6463411294420076|  
-|deferral_payments| 0.22461127473600989|  
-|from_messages| 0.16970094762175533|  
-|restricted_stock_deferred| 0.065499652909942141|
+|exercised_stock_options| 24.815|  
+|total_stock_value| 24.183|  
+|bonus| 20.792|  
+|salary| 18.290|  
+|deferred_income| 11.458|  
+|long_term_incentive| 9.922|  
+|restricted_stock| 9.213|  
+|total_payments| 8.773|  
+|shared_receipt_with_poi| 8.589|  
+|loan_advances| 7.184|  
+|expenses| 6.094|  
+|from_poi_to_this_person| 5.243|  
+|other| 4.187|  
+|from_this_person_to_poi| 2.383|  
+|director_fees| 2.126|  
+|to_messages| 1.646|  
+|deferral_payments| 0.225|  
+|from_messages| 0.170|  
+|restricted_stock_deferred| 0.065|
 
 ### Feature Creation
 
 <p>Additional features 'percent_exercised_stock' and 'percent_bonus' were created but their feature importances were very low.  'percent_exercised_stock' was the percent of 'total_stock_value' that was exercised and 'percent_bonus' was the percent of 'salary' equal to an employee's bonus.</p>
 
-exercised_stock_options: 21.153646538437151  
-total_stock_value: 20.492888346982209  
-bonus: 17.326074648455403  
-salary: 14.579307471130718  
-percent_bonus: 8.5695799793786058  
-percent_exercised_stock: 0.6724199516795144  
+|Feature| Importance Score|
+|-------|----------------:|
+|exercised_stock_options| 21.154|  
+|total_stock_value| 20.493|  
+|bonus| 17.326|  
+|salary| 14.579|  
+|percent_bonus| 8.570|  
+|percent_exercised_stock| 0.6724199516795144|  
 
 ### Fitting classifiers without validation
 
