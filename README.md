@@ -35,13 +35,13 @@ datadict['SKILLING JEFFREY K']['salary']
 |Feature  |Total NaN|
 |---------|---------|
 |POI  | 0  |
-Exercised Stock Options: 43
-Total Stock Value: 19
-Bonus: 63
-Salary: 50  
-Deferred Income: 96  
-Loan Advances: 141  
-Other: 53  
+|Exercised Stock Options| 43|
+|Total Stock Value| 19|
+|Bonus| 63|
+|Salary| 50|  
+|Deferred Income| 96|  
+|Loan Advances| 141|  
+|Other| 53|  
 ## Outliers
 
 <p>Many outliers in this dataset were important because they helped identify persons of interest.  However, some outliers did not correspond to a person.  The max value for financial features was from a 'TOTAL' key rather than a 'PERSON' key.  Another non-person key 'THE TRAVEL AGENCY IN THE PARK' was identified and these keys were removed from the data dictionary.</p>
